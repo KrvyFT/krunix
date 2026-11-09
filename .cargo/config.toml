@@ -1,0 +1,9 @@
+[build]
+target = "riscv64gc-unknown-none-elf"
+
+[target.riscv64gc-unknown-none-elf]
+runner = "./scripts/run-qemu.sh"
+rustflags = [
+    "-Clink-arg=-Tsrc/arch/riscv64/linker.ld",
+    "-Cforce-frame-pointers=yes",
+]
