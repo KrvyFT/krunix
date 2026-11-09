@@ -1,0 +1,27 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Krunix: start QEMU",
+            "type": "process",
+            "command": "make",
+            "args": ["debug"],
+            "options": { "cwd": "${workspaceFolder}" },
+            "isBackground": true,
+            "problemMatcher": {
+                "owner": "krunix-qemu",
+                "pattern": {
+                    "kind": "file",
+                    "regexp": "^(?!)(.*)(.*)$",
+                    "file": 1,
+                    "message": 2
+                },
+                "background": {
+                    "activeOnStart": true,
+                    "beginsPattern": "^(?!)",
+                    "endsPattern": "QEMU waiting for connection on:"
+                }
+            }
+        }
+    ]
+}

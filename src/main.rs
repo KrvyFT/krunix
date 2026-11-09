@@ -3,6 +3,8 @@
 
 use core::arch::global_asm;
 
+use log::info;
+
 mod console;
 mod lang_items;
 mod sbi;
@@ -18,6 +20,7 @@ macro_rules! linker_symbol_addr {
 #[unsafe(no_mangle)]
 pub extern "C" fn rust_main() {
     clear_bss();
+    console::init_logger();
     print_kernel_layout();
     println!("Hello World");
     sbi::shutdown(false);
