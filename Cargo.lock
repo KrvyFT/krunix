@@ -12,9 +12,16 @@ checksum = "3ded4057c258ba199e2d26386d3af3780957ecaee6c4ef4041c6b4b8b97c0b06"
 name = "krunix"
 version = "0.1.0"
 dependencies = [
+ "lazy_static",
  "log",
  "sbi-rt",
 ]
+
+[[package]]
+name = "lazy_static"
+version = "1.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "20870f649af7073d53e38067b2a84312175d56ea15217e1b15bc83506ec50afb"
 
 [[package]]
 name = "log"
@@ -39,3 +46,7 @@ checksum = "785b91fcc41c7426fc07510be49ed1db44f002b45d45c175ec7f155c3cd447a9"
 dependencies = [
  "bitflags",
 ]
+
+[[package]]
+name = "user"
+version = "0.1.0"

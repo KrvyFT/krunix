@@ -1,0 +1,9 @@
+[package]
+name = "krunix"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+lazy_static = "1.5.1"
+log = "0.4.35"
+sbi-rt = { version = "*", features = ["legacy"] }

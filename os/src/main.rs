@@ -5,11 +5,14 @@ use core::arch::global_asm;
 
 use log::info;
 
+mod batch;
 mod console;
 mod lang_items;
 mod sbi;
+mod sync;
 
 global_asm!(include_str!("arch/riscv64/entry.asm"));
+global_asm!(include_str!(concat!(env!("OUT_DIR"), "/link_app.S")));
 
 macro_rules! linker_symbol_addr {
     ($symbol:path) => {
@@ -22,7 +25,6 @@ pub extern "C" fn rust_main() {
     clear_bss();
     console::init_logger();
     print_kernel_layout();
-    println!("Hello World");
     sbi::shutdown(false);
 }
 

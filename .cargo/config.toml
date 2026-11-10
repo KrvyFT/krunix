@@ -1,10 +1,6 @@
 [build]
 target = "riscv64gc-unknown-none-elf"
 
-rustflags = [
-    "-Clink-arg=-Tsrc/arch/riscv64/linker.ld",
-    "-Cforce-frame-pointers=yes",
-]
-
 [target.riscv64gc-unknown-none-elf]
 linker = "rust-lld"
+rustflags = ["-Cforce-frame-pointers=yes"]

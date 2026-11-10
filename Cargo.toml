@@ -1,8 +1,3 @@
-[package]
-name = "krunix"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-log = "0.4.35"
-sbi-rt = { version = "*", features = ["legacy"] }
+[workspace]
+members = ["os", "user"]
+resolver = "3"
