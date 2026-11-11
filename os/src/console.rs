@@ -47,7 +47,8 @@ pub fn init_logger() {
     static LOGGER: ConsoleLogger = ConsoleLogger;
 
     let level = option_env!("LOG")
-        .and_then(|value| value.parse().ok())
+        .unwrap_or("info")
+        .parse()
         .unwrap_or(log::LevelFilter::Off);
     log::set_logger(&LOGGER).unwrap();
     log::set_max_level(level);

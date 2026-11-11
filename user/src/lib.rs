@@ -1,16 +1,17 @@
 #![no_std]
 
-pub mod console;
-mod lang_items;
-mod syscall;
-
 macro_rules! linker_symbol_addr {
     ($symbol:path) => {
         ($symbol as *const ()).addr()
     };
 }
 
-unsafe extern "C" {
+#[macro_use]
+pub mod console;
+mod lang_items;
+mod syscall;
+
+unsafe extern "Rust" {
     fn main() -> i32;
 }
 

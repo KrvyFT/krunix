@@ -2,5 +2,6 @@
     "rust-analyzer.cargo.allTargets": false,
     "debug.allowBreakpointsEverywhere": true,
     "lldb-dap.executable-path": "/usr/bin/lldb-dap",
-    "antigravity.enableInlineDiff": true
+    "antigravity.enableInlineDiff": true,
+    "makefile.configureOnOpen": false
 }

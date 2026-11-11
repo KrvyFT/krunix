@@ -12,7 +12,7 @@ BINS := $(patsubst src/bin/%.rs,$(RELEASE_DIR)/%.bin,$(wildcard src/bin/*.rs))
 build: $(BINS)
 
 elf:
-	$(CARGO) build --package user --bins --profile release --target $(TARGET) --target-dir "$(TARGET_DIR)"
+	$(CARGO) build --manifest-path Cargo.toml --bins --profile release --target $(TARGET) --target-dir "$(TARGET_DIR)"
 
 $(BINS): %.bin: elf
 	$(LLVM_OBJCOPY) --strip-all -O binary "$(@:.bin=)" "$@"
