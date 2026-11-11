@@ -35,10 +35,13 @@ impl KernelStack {
     }
 
     fn push_context(&self, cx: TrapContext) -> &'static mut TrapContext {
+        // 栈向低地址增长，现场起点是栈顶减去 TrapContext 的大小。
         let cx_ptr = (self.get_sp() - core::mem::size_of::<TrapContext>()) as *mut TrapContext;
+        // 把初始寄存器状态写到这个地址，供 __restore 按偏移读取。
         unsafe {
             *cx_ptr = cx;
         }
+        // as_mut 只按空指针返回 None。创建可变引用还要求这段内存可独占访问。
         unsafe { cx_ptr.as_mut().unwrap() }
     }
 }
@@ -77,9 +80,12 @@ impl AppManager {
             app_id, self.app_start[app_id]
         );
 
+        // 清零从 0x80400000 开始的 128 KiB 执行区，擦除上一个 App 的镜像和数据。
         unsafe {
             core::slice::from_raw_parts_mut(APP_BASE_ADDRESS as *mut u8, APP_SIZE_LIMIT).fill(0);
         }
+
+        // 相邻边界给出当前 App 在内核 .rodata 中的起点和长度。
         let app_src = unsafe {
             core::slice::from_raw_parts(
                 self.app_start[app_id] as *const u8,
@@ -87,9 +93,11 @@ impl AppManager {
             )
         };
 
+        // 只借用执行区中与当前镜像等长的范围，再把镜像复制进去。
         let app_dst =
             unsafe { core::slice::from_raw_parts_mut(APP_BASE_ADDRESS as *mut u8, app_src.len()) };
         app_dst.copy_from_slice(app_src);
+
         unsafe {
             asm!("fence.i");
         }
@@ -146,6 +154,8 @@ pub fn run_next_app() -> ! {
         fn __restore(cx_addr: usize);
     }
 
+    // 构造 App 的初始现场：入口是 APP_BASE_ADDRESS，x[2] 是用户栈顶，SPP 指定 U-mode。
+    // 把现场放到内核栈顶下方，将它的地址传给 __restore，由 sret 启动 App。
     unsafe {
         __restore(KERNEL_STACK.push_context(TrapContext::app_init_context(
             APP_BASE_ADDRESS,

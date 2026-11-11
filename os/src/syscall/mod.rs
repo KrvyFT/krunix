@@ -1,7 +1,5 @@
 mod fs;
 
-use core::arch::asm;
-
 use crate::syscall::fs::{sys_exit, sys_write};
 
 const SYSCALL_EXIT: usize = 93;
